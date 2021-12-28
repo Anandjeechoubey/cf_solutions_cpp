@@ -223,6 +223,36 @@ void bfs(ll x){
 
 void solve()
 {
+    ll n, a, sum = 0, max = 0, pow2 = 0;
+    cin >> n;
+    while (n--)
+    {
+        cin >> a;
+        if (a > max)
+        {
+            while (max % 2 == 0 && max >= 2)
+            {
+                max /= 2;
+                pow2++;
+            }
+            sum += max;
+            max = a;
+            // cout << ":: " << max;
+            continue;
+        }
+        while (a % 2 == 0 && max >= 2)
+        {
+            a /= 2;
+            pow2++;
+        }
+        sum += a;
+    }
+    while (pow2--)
+    {
+        max *= 2;
+    }
+    sum += max;
+    cout << sum << endl;
     // Write your code here
 }
 

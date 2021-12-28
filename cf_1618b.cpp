@@ -223,6 +223,39 @@ void bfs(ll x){
 
 void solve()
 {
+    int a, flag = 0;
+    cin >> a;
+    a -= 2;
+    string result = "", bigram, prev;
+    cin >> bigram;
+    result += bigram[0];
+    prev = bigram;
+
+    if (a == 1)
+    {
+        result = bigram + bigram[0];
+        cout << result;
+        return;
+    }
+
+    rep(i, 1, a)
+    {
+        cin >> bigram;
+        if (prev[1] != bigram[0])
+        {
+            flag = 1;
+            result += prev[1];
+        }
+        result += bigram[0];
+        prev = bigram;
+    }
+    result += prev[1];
+
+    if (!flag)
+        result += prev[1];
+
+    cout
+        << result;
     // Write your code here
 }
 

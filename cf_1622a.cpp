@@ -223,6 +223,35 @@ void bfs(ll x){
 
 void solve()
 {
+    ll l1, l2, l3;
+    cin >> l1 >> l2 >> l3;
+    if ((l1 == (l2 + l3)) || (l2 == (l1 + l3)) || (l3 == (l1 + l2)))
+    {
+        // cout << "case0";
+        cout << "YES\n";
+        return;
+    }
+    if (l1 == l2 && l3 % 2 == 0)
+    {
+        cout
+            << "YES\n";
+        return;
+    }
+    if (l1 == l3 && l2 % 2 == 0)
+    {
+        cout
+            << "YES\n";
+        return;
+    }
+    if (l3 == l2 && l1 % 2 == 0)
+    {
+        cout
+            << "YES\n";
+        return;
+    }
+
+    cout
+        << "NO\n";
     // Write your code here
 }
 

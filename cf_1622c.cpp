@@ -178,6 +178,12 @@ vector<string> strSplit(string s, string del = " ")
     return result;
 }
 
+bool sortbysec(const pair<int, int> &a,
+               const pair<int, int> &b)
+{
+    return (a.second < b.second);
+}
+
 /*
 vll a[mx];
 ll l[mx],d[mx];
@@ -223,6 +229,42 @@ void bfs(ll x){
 
 void solve()
 {
+    ll n, k, sum = 0, ans = 0, count = 0;
+    cin >> n >> k;
+    vll a(n);
+    rep(i, 0, n)
+    {
+        cin >> a[i];
+        sum += a[i];
+    }
+    sort(all(a));
+    if (k < n * a[0])
+    {
+        rep(i, 1, n)
+        {
+            if (a[0] == a[i])
+            {
+
+                a[0]--;
+                count++;
+            }
+        }
+    }
+    while (sum > k)
+    {
+        if (sum == a[0] * n)
+        {
+            ans += sum - k;
+            break;
+        }
+
+        sum -= a[n - 1] - a[0];
+        a[n - 1] = a[0];
+        ans++;
+        sort(all(a));
+    }
+    cout << ans << endl;
+
     // Write your code here
 }
 
