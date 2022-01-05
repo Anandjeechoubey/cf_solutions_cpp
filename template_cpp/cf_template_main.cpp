@@ -21,6 +21,7 @@ typedef long double ld;
 #define all(x) (x).begin(), (x).end()
 #define rep(i, a, n) for (ll i = a; i < n; i++)
 #define rrep(i, a, n) for (ll i = n - 1; i >= a; i--)
+#define search(arr, x) binarySearch(arr, 0, sz(arr) - 1, x)
 typedef map<string, ll> msl;
 #define mx 100001
 #define mod 1000000007
@@ -178,6 +179,32 @@ vector<string> strSplit(string s, string del = " ")
     return result;
 }
 
+int binarySearch(vll arr, ll l, ll r, ll x)
+{
+    if (r >= l)
+    {
+        int mid = l + (r - l) / 2;
+
+        // If the element is present at the middle
+        // itself
+        if (arr[mid] == x)
+            return mid;
+
+        // If element is smaller than mid, then
+        // it can only be present in left subarray
+        if (arr[mid] > x)
+            return binarySearch(arr, l, mid - 1, x);
+
+        // Else the element can only be present
+        // in right subarray
+        return binarySearch(arr, mid + 1, r, x);
+    }
+
+    // We reach here when element is not
+    // present in array
+    return -1;
+}
+
 /*
 vll a[mx];
 ll l[mx],d[mx];
@@ -223,6 +250,11 @@ void bfs(ll x){
 
 void solve()
 {
+    int n, x;
+    cin >> n >> x;
+    vll a(n);
+    rep(i, 0, n) cin >> a[i];
+    cout << search(a, x) << endl;
     // Write your code here
 }
 
@@ -232,8 +264,12 @@ int main()
     cin.tie(NULL);
     cout.tie(NULL);
 
-    // with multiple test cases::::
+#ifndef ONLINE_JUDGE
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
+#endif
 
+    // with multiple test cases::::
     ll t;
     cin >> t;
 

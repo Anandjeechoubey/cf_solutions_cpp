@@ -30,6 +30,10 @@ ll gcd(ll a, ll b)
         return a;
     return gcd(b, a % b);
 }
+ll lcm(ll a, ll b)
+{
+    return (a * b) / gcd(a, b);
+}
 ll extgcd(ll a, ll b, ll &x, ll &y)
 {
     if (b == 0)
@@ -159,6 +163,21 @@ ll nCr(ll n, ll r)
     return z;
 }
 
+vector<string> strSplit(string s, string del = " ")
+{
+    int start = 0;
+    int end = s.find(del);
+    vector<string> result;
+    while (end != -1)
+    {
+        result.pb(s.substr(start, end - start));
+        start = end + del.size();
+        end = s.find(del, start);
+    }
+    result.pb(s.substr(start, end - start));
+    return result;
+}
+
 /*
 vll a[mx];
 ll l[mx],d[mx];
@@ -204,23 +223,49 @@ void bfs(ll x){
 
 void solve()
 {
-    ll n;
-    cin >> n;
-    set<int> a;
-    ll count = 0;
-    for (ll i = 1; i * i <= n; i++)
+    vll a(14), temp(14);
+    // cout << "yoyo";
+    ll max = 0, sum = 0, curr, n;
+    rep(i, 0, 14) cin >> a[i];
+    rep(i, 0, 14)
     {
-        count++;
-        a.insert(i * i);
-    }
-    for (ll i = 1; i * i * i <= n; i++)
-    {
-        if (a.find(i) != a.end())
+        sum = 0;
+        if (a[i] == 0)
             continue;
-        count++;
+        rep(j, 0, 14) temp[j] = a[j];
+        // rep(j, 0, 14) cout << temp[j] << " ";
+        curr = temp[i];
+        temp[i] = 0;
+        if (curr >= 14)
+        {
+            rep(j, 0, 14)
+            {
+                temp[j] += curr / 14;
+            }
+        }
+        n = i + 1;
+        for (int k = 0; k < curr % 14; k++)
+        {
+            if (n == 14)
+            {
+                n = 0;
+            }
+            temp[n]++;
+            n++;
+        }
+        rep(j, 0, 14)
+        {
+            if (temp[j] % 2 == 0)
+            {
+                sum += temp[j];
+            }
+        }
+        // rep(j, 0, 14) cout << temp[j] << " ";
+        // cout << endl;
+        if (sum > max)
+            max = sum;
     }
-    cout << count << endl;
-
+    cout << max << endl;
     // Write your code here
 }
 
@@ -230,21 +275,24 @@ int main()
     cin.tie(NULL);
     cout.tie(NULL);
 
+#ifndef ONLINE_JUDGE
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
+#endif
+
     // with multiple test cases::::
+    // ll t;
+    // cin >> t;
 
-    ll t;
-    cin >> t;
+    // while (t--)
+    // {
 
-    while (t--)
-    {
-
-        solve();
-        cout << endl;
-    }
+    //     solve();
+    // }
 
     // without multiple test cases::::
 
-    // solve();
+    solve();
 
     return 0;
 }

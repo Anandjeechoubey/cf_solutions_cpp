@@ -30,6 +30,10 @@ ll gcd(ll a, ll b)
         return a;
     return gcd(b, a % b);
 }
+ll lcm(ll a, ll b)
+{
+    return (a * b) / gcd(a, b);
+}
 ll extgcd(ll a, ll b, ll &x, ll &y)
 {
     if (b == 0)
@@ -159,6 +163,27 @@ ll nCr(ll n, ll r)
     return z;
 }
 
+vector<string> strSplit(string s, string del = " ")
+{
+    int start = 0;
+    int end = s.find(del);
+    vector<string> result;
+    while (end != -1)
+    {
+        result.pb(s.substr(start, end - start));
+        start = end + del.size();
+        end = s.find(del, start);
+    }
+    result.pb(s.substr(start, end - start));
+    return result;
+}
+
+bool sortbysec(const pair<int, int> &a,
+               const pair<int, int> &b)
+{
+    return (a.second < b.second);
+}
+
 /*
 vll a[mx];
 ll l[mx],d[mx];
@@ -202,25 +227,45 @@ void bfs(ll x){
  */
 // Function that returns true if num is
 
+bool sortByDiff(const pair<int, int> &a,
+                const pair<int, int> &b)
+{
+    return a.sc - a.fr < b.sc - b.fr;
+}
+
 void solve()
 {
-    ll n;
+    int n, l, r;
     cin >> n;
-    set<int> a;
-    ll count = 0;
-    for (ll i = 1; i * i <= n; i++)
+    vector<pair<int, int>> lr(n);
+    set<int> rmd;
+    rep(i, 0, n)
     {
-        count++;
-        a.insert(i * i);
+        cin >> l >> r;
+        lr[i] = make_pair(l, r);
     }
-    for (ll i = 1; i * i * i <= n; i++)
+    sort(all(lr), sortByDiff);
+    rep(i, 0, n)
     {
-        if (a.find(i) != a.end())
-            continue;
-        count++;
+        // cout << ":: " << lr[i].fr << " :: " << lr[i].sc;
+        if (lr[i].fr == lr[i].sc)
+        {
+            rmd.insert(lr[i].fr);
+            cout << lr[i].fr << " " << lr[i].fr << " " << lr[i].fr << endl;
+        }
+        else
+        {
+            rep(j, lr[i].fr, lr[i].sc + 1)
+            {
+                // cout <<rmd.find(j)<< " " << lr[i].sc << " " << j << endl;
+                if (rmd.find(j) == rmd.end())
+                {
+                    rmd.insert(j);
+                    cout << lr[i].fr << " " << lr[i].sc << " " << j << endl;
+                }
+            }
+        }
     }
-    cout << count << endl;
-
     // Write your code here
 }
 
@@ -239,7 +284,6 @@ int main()
     {
 
         solve();
-        cout << endl;
     }
 
     // without multiple test cases::::

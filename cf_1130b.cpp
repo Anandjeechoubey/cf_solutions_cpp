@@ -30,6 +30,10 @@ ll gcd(ll a, ll b)
         return a;
     return gcd(b, a % b);
 }
+ll lcm(ll a, ll b)
+{
+    return (a * b) / gcd(a, b);
+}
 ll extgcd(ll a, ll b, ll &x, ll &y)
 {
     if (b == 0)
@@ -159,6 +163,21 @@ ll nCr(ll n, ll r)
     return z;
 }
 
+vector<string> strSplit(string s, string del = " ")
+{
+    int start = 0;
+    int end = s.find(del);
+    vector<string> result;
+    while (end != -1)
+    {
+        result.pb(s.substr(start, end - start));
+        start = end + del.size();
+        end = s.find(del, start);
+    }
+    result.pb(s.substr(start, end - start));
+    return result;
+}
+
 /*
 vll a[mx];
 ll l[mx],d[mx];
@@ -204,23 +223,20 @@ void bfs(ll x){
 
 void solve()
 {
-    ll n;
+    ll n, temp, result;
+    vector<prll> dist(n + 1);
     cin >> n;
-    set<int> a;
-    ll count = 0;
-    for (ll i = 1; i * i <= n; i++)
+    rep(i, 1, 2 * n + 1)
     {
-        count++;
-        a.insert(i * i);
+        cin >> temp;
+        if (dist[temp].fr)
+            dist[temp].sc = i;
+        else
+            dist[temp].fr = i;
     }
-    for (ll i = 1; i * i * i <= n; i++)
-    {
-        if (a.find(i) != a.end())
-            continue;
-        count++;
-    }
-    cout << count << endl;
-
+    result = dist[1].fr + dist[1].sc;
+    rep(i, 2, n + 1) result += abs(dist[i].fr - dist[i - 1].fr) + abs(dist[i].sc - dist[i - 1].sc);
+    cout << result - 2 << endl;
     // Write your code here
 }
 
@@ -232,19 +248,18 @@ int main()
 
     // with multiple test cases::::
 
-    ll t;
-    cin >> t;
+    // ll t;
+    // cin >> t;
 
-    while (t--)
-    {
+    // while (t--)
+    // {
 
-        solve();
-        cout << endl;
-    }
+    //     solve();
+    // }
 
     // without multiple test cases::::
 
-    // solve();
+    solve();
 
     return 0;
 }

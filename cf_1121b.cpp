@@ -30,6 +30,10 @@ ll gcd(ll a, ll b)
         return a;
     return gcd(b, a % b);
 }
+ll lcm(ll a, ll b)
+{
+    return (a * b) / gcd(a, b);
+}
 ll extgcd(ll a, ll b, ll &x, ll &y)
 {
     if (b == 0)
@@ -159,6 +163,21 @@ ll nCr(ll n, ll r)
     return z;
 }
 
+vector<string> strSplit(string s, string del = " ")
+{
+    int start = 0;
+    int end = s.find(del);
+    vector<string> result;
+    while (end != -1)
+    {
+        result.pb(s.substr(start, end - start));
+        start = end + del.size();
+        end = s.find(del, start);
+    }
+    result.pb(s.substr(start, end - start));
+    return result;
+}
+
 /*
 vll a[mx];
 ll l[mx],d[mx];
@@ -206,22 +225,46 @@ void solve()
 {
     ll n;
     cin >> n;
-    set<int> a;
-    ll count = 0;
-    for (ll i = 1; i * i <= n; i++)
+    vi a(n);
+    rep(i, 0, n)
     {
-        count++;
-        a.insert(i * i);
+        cin >> a[i];
     }
-    for (ll i = 1; i * i * i <= n; i++)
+    rep(i, 0, n)
     {
-        if (a.find(i) != a.end())
-            continue;
-        count++;
-    }
-    cout << count << endl;
+        int n;
+        cin >> n;
+        vi a(n);
+        map<int, int> sum;
+        rep(i, 0, n) cin >> a[i];
+        // sort(all(a));
+        rep(i, 0, n - 1)
+        {
+            rep(j, i + 1, n)
+            {
 
-    // Write your code here
+                auto it = sum.find(a[i] + a[j]);
+
+                if (it == sum.end())
+                {
+                    sum.insert({a[i] + a[j], 1});
+                }
+                else
+                {
+                    it->sc++;
+                }
+            }
+        }
+        int max = 0;
+
+        for (auto itr = sum.begin(); itr != sum.end(); ++itr)
+        {
+            if (itr->sc > max)
+                max = itr->sc;
+        }
+        cout << max;
+        // Write your code here
+    }
 }
 
 int main()
@@ -232,19 +275,18 @@ int main()
 
     // with multiple test cases::::
 
-    ll t;
-    cin >> t;
+    // ll t;
+    // cin >> t;
 
-    while (t--)
-    {
+    // while (t--)
+    // {
 
-        solve();
-        cout << endl;
-    }
+    //     solve();
+    // }
 
     // without multiple test cases::::
 
-    // solve();
+    solve();
 
     return 0;
 }

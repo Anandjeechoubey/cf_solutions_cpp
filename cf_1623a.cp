@@ -30,6 +30,10 @@ ll gcd(ll a, ll b)
         return a;
     return gcd(b, a % b);
 }
+ll lcm(ll a, ll b)
+{
+    return (a * b) / gcd(a, b);
+}
 ll extgcd(ll a, ll b, ll &x, ll &y)
 {
     if (b == 0)
@@ -159,6 +163,27 @@ ll nCr(ll n, ll r)
     return z;
 }
 
+vector<string> strSplit(string s, string del = " ")
+{
+    int start = 0;
+    int end = s.find(del);
+    vector<string> result;
+    while (end != -1)
+    {
+        result.pb(s.substr(start, end - start));
+        start = end + del.size();
+        end = s.find(del, start);
+    }
+    result.pb(s.substr(start, end - start));
+    return result;
+}
+
+bool sortbysec(const pair<int, int> &a,
+               const pair<int, int> &b)
+{
+    return (a.second < b.second);
+}
+
 /*
 vll a[mx];
 ll l[mx],d[mx];
@@ -204,22 +229,41 @@ void bfs(ll x){
 
 void solve()
 {
-    ll n;
-    cin >> n;
-    set<int> a;
-    ll count = 0;
-    for (ll i = 1; i * i <= n; i++)
+    ll n, k, sum = 0, ans = 0, count = 0;
+    cin >> n >> k;
+    vll a(n);
+    rep(i, 0, n)
     {
-        count++;
-        a.insert(i * i);
+        cin >> a[i];
+        sum += a[i];
     }
-    for (ll i = 1; i * i * i <= n; i++)
+    sort(all(a));
+    if (k < n * a[0])
     {
-        if (a.find(i) != a.end())
-            continue;
-        count++;
+        rep(i, 1, n)
+        {
+            if (a[0] == a[i])
+            {
+
+                a[0]--;
+                count++;
+            }
+        }
     }
-    cout << count << endl;
+    while (sum > k)
+    {
+        if (sum == a[0] * n)
+        {
+            ans += sum - k;
+            break;
+        }
+
+        sum -= a[n - 1] - a[0];
+        a[n - 1] = a[0];
+        ans++;
+        sort(all(a));
+    }
+    cout << ans << endl;
 
     // Write your code here
 }
@@ -239,7 +283,6 @@ int main()
     {
 
         solve();
-        cout << endl;
     }
 
     // without multiple test cases::::

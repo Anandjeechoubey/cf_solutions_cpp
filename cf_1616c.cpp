@@ -30,6 +30,10 @@ ll gcd(ll a, ll b)
         return a;
     return gcd(b, a % b);
 }
+ll lcm(ll a, ll b)
+{
+    return (a * b) / gcd(a, b);
+}
 ll extgcd(ll a, ll b, ll &x, ll &y)
 {
     if (b == 0)
@@ -204,24 +208,61 @@ void bfs(ll x){
 
 void solve()
 {
-    ll n;
+    int n, max = 1, count = 1, dlog = 1;
     cin >> n;
-    set<int> a;
-    ll count = 0;
-    for (ll i = 1; i * i <= n; i++)
+    vi a(n);
+    rep(i, 0, n) cin >> a[i];
+    if (n == 1 || n == 2)
     {
-        count++;
-        a.insert(i * i);
+        cout << 0 << endl;
+        return;
     }
-    for (ll i = 1; i * i * i <= n; i++)
-    {
-        if (a.find(i) != a.end())
-            continue;
-        count++;
-    }
-    cout << count << endl;
 
-    // Write your code here
+    while (dlog <= (n - 1) / 2)
+    {
+        vi d;
+        rep(j, 0, dlog)
+        {
+            for (int i = dlog + j; i < n; i += dlog)
+            {
+                d.push_back(a[i] - a[i - dlog]);
+            }
+            rep(i, 0, d.size())
+            {
+                while (d[i] == d[i + 1] && i < d.size() - 1)
+                {
+                    // cout << "yoyo";
+                    i++;
+                    count++;
+                }
+                // if (i > 0 && d[i] == d[i - 1])
+                count++;
+                if (count > max)
+                    max = count;
+
+                count = 1;
+            }
+        }
+        dlog++;
+    }
+    cout << n - max << endl;
+    // vi d;
+    // rep(i, 1, n)
+    // {
+    //     d.push_back(a[i] - a[i - 1]);
+    // }
+    // rep(i, 0, d.size())
+    // {
+    //     while (d[i] == d[i + 1] && i < d.size())
+    //     {
+    //         i++;
+    //         count++;
+    //     }
+    //     if (count > max)
+    //         max = count;
+
+    //     count = 0;
+    // }
 }
 
 int main()
@@ -239,7 +280,6 @@ int main()
     {
 
         solve();
-        cout << endl;
     }
 
     // without multiple test cases::::

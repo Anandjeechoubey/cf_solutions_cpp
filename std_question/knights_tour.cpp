@@ -16,6 +16,7 @@ using namespace std;
 #define fr first
 #define sc second
 #define prll pair<long long, long long>
+#define prii pair<int, int>
 typedef long long ll;
 typedef long double ld;
 #define all(x) (x).begin(), (x).end()
@@ -29,6 +30,10 @@ ll gcd(ll a, ll b)
     if (b == 0)
         return a;
     return gcd(b, a % b);
+}
+ll lcm(ll a, ll b)
+{
+    return (a * b) / gcd(a, b);
 }
 ll extgcd(ll a, ll b, ll &x, ll &y)
 {
@@ -159,6 +164,21 @@ ll nCr(ll n, ll r)
     return z;
 }
 
+vector<string> strSplit(string s, string del = " ")
+{
+    int start = 0;
+    int end = s.find(del);
+    vector<string> result;
+    while (end != -1)
+    {
+        result.pb(s.substr(start, end - start));
+        start = end + del.size();
+        end = s.find(del, start);
+    }
+    result.pb(s.substr(start, end - start));
+    return result;
+}
+
 /*
 vll a[mx];
 ll l[mx],d[mx];
@@ -202,24 +222,52 @@ void bfs(ll x){
  */
 // Function that returns true if num is
 
+stack<int> knightsTour;
+
+vector<prii> moves(int i, int j)
+{
+    vector<prii> ans;
+    if (i + 2 < 8 && j + 1 < 8)
+        ans.pb({i + 2, j + 1});
+    if (j + 2 < 8 && i + 1 < 8)
+        ans.pb({i + 1, j + 2});
+    if (i + 2 < 8 && j - 1 >= 0)
+        ans.pb({i + 2, j - 1});
+    if (j + 2 < 8 && i - 1 >= 0)
+        ans.pb({i - 1, j + 2});
+    if (i - 2 >= 0 && j + 1 < 8)
+        ans.pb({i - 2, j + 1});
+    if (j - 2 >= 0 && i + 1 < 8)
+        ans.pb({i + 1, j - 2});
+    if (i - 2 >= 0 && j - 1 >= 0)
+        ans.pb({i - 2, j - 1});
+    if (j - 2 >= 0 && i - 1 >= 0)
+        ans.pb({i - 1, j - 2});
+
+    return ans;
+}
+
+void findKnightsTour(int i, int j)
+{
+    if (sz(knightsTour) == 64)
+    {
+        while (!knightsTour.empty())
+        {
+            cout << knightsTour.top() << ' ';
+            knightsTour.pop();
+        }
+        return;
+    }
+
+    vector<prii> next = moves(i, j);
+    if (sz(next) == 0)
+    {
+    }
+}
+
 void solve()
 {
-    ll n;
-    cin >> n;
-    set<int> a;
-    ll count = 0;
-    for (ll i = 1; i * i <= n; i++)
-    {
-        count++;
-        a.insert(i * i);
-    }
-    for (ll i = 1; i * i * i <= n; i++)
-    {
-        if (a.find(i) != a.end())
-            continue;
-        count++;
-    }
-    cout << count << endl;
+    findKnightsTour(0, 0);
 
     // Write your code here
 }
@@ -232,19 +280,18 @@ int main()
 
     // with multiple test cases::::
 
-    ll t;
-    cin >> t;
+    // ll t;
+    // cin >> t;
 
-    while (t--)
-    {
+    // while (t--)
+    // {
 
-        solve();
-        cout << endl;
-    }
+    //     solve();
+    // }
 
     // without multiple test cases::::
 
-    // solve();
+    solve();
 
     return 0;
 }

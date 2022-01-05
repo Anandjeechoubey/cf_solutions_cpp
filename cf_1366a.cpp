@@ -30,6 +30,10 @@ ll gcd(ll a, ll b)
         return a;
     return gcd(b, a % b);
 }
+ll lcm(ll a, ll b)
+{
+    return (a * b) / gcd(a, b);
+}
 ll extgcd(ll a, ll b, ll &x, ll &y)
 {
     if (b == 0)
@@ -159,6 +163,21 @@ ll nCr(ll n, ll r)
     return z;
 }
 
+vector<string> strSplit(string s, string del = " ")
+{
+    int start = 0;
+    int end = s.find(del);
+    vector<string> result;
+    while (end != -1)
+    {
+        result.pb(s.substr(start, end - start));
+        start = end + del.size();
+        end = s.find(del, start);
+    }
+    result.pb(s.substr(start, end - start));
+    return result;
+}
+
 /*
 vll a[mx];
 ll l[mx],d[mx];
@@ -204,23 +223,50 @@ void bfs(ll x){
 
 void solve()
 {
-    ll n;
-    cin >> n;
-    set<int> a;
-    ll count = 0;
-    for (ll i = 1; i * i <= n; i++)
+    ll a, b, result = 0, temp;
+    cin >> a >> b;
+    if (a > b)
     {
-        count++;
-        a.insert(i * i);
+        temp = a;
+        a = b;
+        b = temp;
     }
-    for (ll i = 1; i * i * i <= n; i++)
+    if (b >= 2 * a)
     {
-        if (a.find(i) != a.end())
-            continue;
-        count++;
+        cout << a << endl;
+        return;
     }
-    cout << count << endl;
+    temp = (2 * a - b) / 3;
+    result = temp + (b - temp) / 2;
+    // if (a >= 3 && b >= 3)
+    // {
+    //     if (b > a)
+    //     {
+    //         result += 2 * (a / 3);
+    //         b -= a - a % 3;
+    //         a = a % 3;
+    //     }
+    //     else
+    //     {
+    //         result += 2 * (b / 3);
+    //         a -= b - b % 3;
+    //         b = b % 3;
+    //     }
+    // }
+    // while (a >= 2 && b >= 1)
+    // {
+    //     result++;
+    //     a -= 2;
+    //     b -= 1;
+    // }
+    // while (b >= 2 && a >= 1)
+    // {
+    //     result++;
+    //     b -= 2;
+    //     a -= 1;
+    // }
 
+    cout << result << endl;
     // Write your code here
 }
 
@@ -239,7 +285,6 @@ int main()
     {
 
         solve();
-        cout << endl;
     }
 
     // without multiple test cases::::

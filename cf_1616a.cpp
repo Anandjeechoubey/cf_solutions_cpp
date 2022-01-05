@@ -30,6 +30,10 @@ ll gcd(ll a, ll b)
         return a;
     return gcd(b, a % b);
 }
+ll lcm(ll a, ll b)
+{
+    return (a * b) / gcd(a, b);
+}
 ll extgcd(ll a, ll b, ll &x, ll &y)
 {
     if (b == 0)
@@ -204,24 +208,40 @@ void bfs(ll x){
 
 void solve()
 {
-    ll n;
-    cin >> n;
-    set<int> a;
-    ll count = 0;
-    for (ll i = 1; i * i <= n; i++)
-    {
-        count++;
-        a.insert(i * i);
-    }
-    for (ll i = 1; i * i * i <= n; i++)
-    {
-        if (a.find(i) != a.end())
-            continue;
-        count++;
-    }
-    cout << count << endl;
-
+    // int n, inp, count = 0;
+    // vi a(n);
+    // cin >> n;
+    // rep(i, 0, n)
+    // {
+    //     cin >> inp;
+    //     a[i] = abs(inp);
+    // }
+    // sort(all(a));
+    // rep(i, 0, n - 1)
+    // {
+    //     if (a[i] != a[i + 1] || a[i] == 0)
+    //         continue;
+    //     while (a[i + 1] == a[i] && i < n)
+    //     {
+    //         i++;
+    //     }
+    //     count++;
+    // }
+    // cout << n + count << endl;
     // Write your code here
+    int n, input, sum = 0;
+    cin >> n;
+    vi a(201);
+    rep(i, 0, n)
+    {
+        cin >> input;
+        a[input + 100]++;
+        if (input != 0 && (a[input + 100] + a[100 - input]) == 1)
+            sum++;
+        if (input != 0 && (a[input + 100] + a[100 - input]) == 2)
+            sum++;
+    }
+    cout << sum + (a[100] ? 1 : 0) << endl;
 }
 
 int main()
@@ -239,7 +259,6 @@ int main()
     {
 
         solve();
-        cout << endl;
     }
 
     // without multiple test cases::::

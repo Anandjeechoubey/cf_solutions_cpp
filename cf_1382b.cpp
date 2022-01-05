@@ -30,6 +30,10 @@ ll gcd(ll a, ll b)
         return a;
     return gcd(b, a % b);
 }
+ll lcm(ll a, ll b)
+{
+    return (a * b) / gcd(a, b);
+}
 ll extgcd(ll a, ll b, ll &x, ll &y)
 {
     if (b == 0)
@@ -159,6 +163,21 @@ ll nCr(ll n, ll r)
     return z;
 }
 
+vector<string> strSplit(string s, string del = " ")
+{
+    int start = 0;
+    int end = s.find(del);
+    vector<string> result;
+    while (end != -1)
+    {
+        result.pb(s.substr(start, end - start));
+        start = end + del.size();
+        end = s.find(del, start);
+    }
+    result.pb(s.substr(start, end - start));
+    return result;
+}
+
 /*
 vll a[mx];
 ll l[mx],d[mx];
@@ -206,21 +225,22 @@ void solve()
 {
     ll n;
     cin >> n;
-    set<int> a;
-    ll count = 0;
-    for (ll i = 1; i * i <= n; i++)
+    vll a(n);
+    rep(i, 0, n)
     {
-        count++;
-        a.insert(i * i);
+        cin >> a[i];
+        if (i % 2 == 0)
+        {
+            a[i] = -abs(a[i]);
+        }
+        else
+        {
+            a[i] = abs(a[i]);
+        }
     }
-    for (ll i = 1; i * i * i <= n; i++)
-    {
-        if (a.find(i) != a.end())
-            continue;
-        count++;
-    }
-    cout << count << endl;
+    rep(i, 0, n) cout << a[i] << " ";
 
+    cout << endl;
     // Write your code here
 }
 
@@ -230,8 +250,12 @@ int main()
     cin.tie(NULL);
     cout.tie(NULL);
 
-    // with multiple test cases::::
+#ifndef ONLINE_JUDGE
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
+#endif
 
+    // with multiple test cases::::
     ll t;
     cin >> t;
 
@@ -239,7 +263,6 @@ int main()
     {
 
         solve();
-        cout << endl;
     }
 
     // without multiple test cases::::

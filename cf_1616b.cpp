@@ -30,6 +30,10 @@ ll gcd(ll a, ll b)
         return a;
     return gcd(b, a % b);
 }
+ll lcm(ll a, ll b)
+{
+    return (a * b) / gcd(a, b);
+}
 ll extgcd(ll a, ll b, ll &x, ll &y)
 {
     if (b == 0)
@@ -204,24 +208,27 @@ void bfs(ll x){
 
 void solve()
 {
-    ll n;
+    int n;
     cin >> n;
-    set<int> a;
-    ll count = 0;
-    for (ll i = 1; i * i <= n; i++)
+    string s, res = "", temp = "";
+    cin >> s;
+    rep(i, 0, n)
     {
-        count++;
-        a.insert(i * i);
+        if (i == 0 && s[i] == s[i + 1])
+        {
+            res += s[i];
+            break;
+        }
+        if (s[i] < s[i + 1])
+        {
+            res += s[i];
+            break;
+        }
+        res += s[i];
     }
-    for (ll i = 1; i * i * i <= n; i++)
-    {
-        if (a.find(i) != a.end())
-            continue;
-        count++;
-    }
-    cout << count << endl;
-
-    // Write your code here
+    temp = res;
+    reverse(all(res));
+    cout << temp + res << endl;
 }
 
 int main()
@@ -239,7 +246,6 @@ int main()
     {
 
         solve();
-        cout << endl;
     }
 
     // without multiple test cases::::

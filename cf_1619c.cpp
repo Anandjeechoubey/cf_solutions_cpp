@@ -224,14 +224,16 @@ void solve()
         }
         if (a % 10 > s % 10)
         {
-            if (s % 100 - a % 10 > 9)
+            s /= 10;
+            if (s % 10 - a % 10 > 9)
             {
                 cout << "-1" << endl;
                 return;
             }
-            res += (s % 100 - a % 10) * pos;
+            // while()
+            res += (s % 10 - a % 10) * pos;
+            s /= 10;
             pos *= 10;
-            s /= 100;
             a /= 10;
         }
         else
@@ -261,7 +263,6 @@ int main()
     {
 
         solve();
-        cout << endl;
     }
 
     // without multiple test cases::::

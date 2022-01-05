@@ -30,6 +30,10 @@ ll gcd(ll a, ll b)
         return a;
     return gcd(b, a % b);
 }
+ll lcm(ll a, ll b)
+{
+    return (a * b) / gcd(a, b);
+}
 ll extgcd(ll a, ll b, ll &x, ll &y)
 {
     if (b == 0)
@@ -159,6 +163,21 @@ ll nCr(ll n, ll r)
     return z;
 }
 
+vector<string> strSplit(string s, string del = " ")
+{
+    int start = 0;
+    int end = s.find(del);
+    vector<string> result;
+    while (end != -1)
+    {
+        result.pb(s.substr(start, end - start));
+        start = end + del.size();
+        end = s.find(del, start);
+    }
+    result.pb(s.substr(start, end - start));
+    return result;
+}
+
 /*
 vll a[mx];
 ll l[mx],d[mx];
@@ -204,23 +223,30 @@ void bfs(ll x){
 
 void solve()
 {
-    ll n;
-    cin >> n;
-    set<int> a;
-    ll count = 0;
-    for (ll i = 1; i * i <= n; i++)
+    ll a, b, c, d;
+    cin >> a >> b >> c >> d;
+    int mn = min(b, d);
+    b -= mn;
+    d -= mn;
+    if (b >= 7)
     {
-        count++;
-        a.insert(i * i);
+        cout << ">" << endl;
+        return;
     }
-    for (ll i = 1; i * i * i <= n; i++)
+    else if (d >= 7)
     {
-        if (a.find(i) != a.end())
-            continue;
-        count++;
+        cout << "<" << endl;
+        return;
     }
-    cout << count << endl;
+    rep(i, 0, b) a *= 10;
+    rep(i, 0, d) c *= 10;
 
+    if (a > c)
+        cout << ">\n";
+    else if (a < c)
+        cout << "<\n";
+    else
+        cout << "=\n";
     // Write your code here
 }
 
@@ -239,7 +265,6 @@ int main()
     {
 
         solve();
-        cout << endl;
     }
 
     // without multiple test cases::::

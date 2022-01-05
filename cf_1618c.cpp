@@ -16,6 +16,7 @@ using namespace std;
 #define fr first
 #define sc second
 #define prll pair<long long, long long>
+#define prii pair<int, int>
 typedef long long ll;
 typedef long double ld;
 #define all(x) (x).begin(), (x).end()
@@ -29,6 +30,10 @@ ll gcd(ll a, ll b)
     if (b == 0)
         return a;
     return gcd(b, a % b);
+}
+ll lcm(ll a, ll b)
+{
+    return (a * b) / gcd(a, b);
 }
 ll extgcd(ll a, ll b, ll &x, ll &y)
 {
@@ -159,6 +164,21 @@ ll nCr(ll n, ll r)
     return z;
 }
 
+vector<string> strSplit(string s, string del = " ")
+{
+    int start = 0;
+    int end = s.find(del);
+    vector<string> result;
+    while (end != -1)
+    {
+        result.pb(s.substr(start, end - start));
+        start = end + del.size();
+        end = s.find(del, start);
+    }
+    result.pb(s.substr(start, end - start));
+    return result;
+}
+
 /*
 vll a[mx];
 ll l[mx],d[mx];
@@ -204,23 +224,60 @@ void bfs(ll x){
 
 void solve()
 {
-    ll n;
+    ll n, temp, evenGcd = 0, oddGcd = 0;
     cin >> n;
-    set<int> a;
-    ll count = 0;
-    for (ll i = 1; i * i <= n; i++)
+    vll odd, even;
+    if (n == 1)
     {
-        count++;
-        a.insert(i * i);
+        cin >> temp;
+        cout << temp << endl;
+        return;
     }
-    for (ll i = 1; i * i * i <= n; i++)
+    rep(i, 0, n)
     {
-        if (a.find(i) != a.end())
-            continue;
-        count++;
+        if (i % 2)
+        {
+            cin >> temp;
+            even.pb(temp);
+            evenGcd = gcd(evenGcd, even[sz(even) - 1]);
+        }
+        else
+        {
+            cin >> temp;
+            odd.pb(temp);
+            evenGcd = gcd(oddGcd, odd[sz(odd) - 1]);
+        }
     }
-    cout << count << endl;
+    int flag = 0;
+    rep(i, 0, sz(odd))
+    {
+        if (odd[i] % evenGcd == 0)
+        {
+            flag = 1;
+            break;
+        }
+    }
+    if (!flag)
+    {
+        cout << evenGcd << endl;
+        return;
+    }
+    flag = 0;
+    rep(i, 0, sz(even))
+    {
+        if (even[i] % oddGcd == 0)
+        {
+            flag = 1;
+            break;
+        }
+    }
+    if (!flag)
+    {
+        cout << oddGcd << endl;
+        return;
+    }
 
+    cout << "0\n";
     // Write your code here
 }
 
@@ -229,6 +286,11 @@ int main()
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     cout.tie(NULL);
+
+#ifndef ONLINE_JUDGE
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
+#endif
 
     // with multiple test cases::::
 
@@ -239,7 +301,6 @@ int main()
     {
 
         solve();
-        cout << endl;
     }
 
     // without multiple test cases::::

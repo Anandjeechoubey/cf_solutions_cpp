@@ -30,6 +30,10 @@ ll gcd(ll a, ll b)
         return a;
     return gcd(b, a % b);
 }
+ll lcm(ll a, ll b)
+{
+    return (a * b) / gcd(a, b);
+}
 ll extgcd(ll a, ll b, ll &x, ll &y)
 {
     if (b == 0)
@@ -159,6 +163,21 @@ ll nCr(ll n, ll r)
     return z;
 }
 
+vector<string> strSplit(string s, string del = " ")
+{
+    int start = 0;
+    int end = s.find(del);
+    vector<string> result;
+    while (end != -1)
+    {
+        result.pb(s.substr(start, end - start));
+        start = end + del.size();
+        end = s.find(del, start);
+    }
+    result.pb(s.substr(start, end - start));
+    return result;
+}
+
 /*
 vll a[mx];
 ll l[mx],d[mx];
@@ -204,31 +223,92 @@ void bfs(ll x){
 
 void solve()
 {
-    ll n;
+    ll n, l, r, c, cl, cr, minL, maxR, minCr, flag = 0;
     cin >> n;
-    set<int> a;
-    ll count = 0;
-    for (ll i = 1; i * i <= n; i++)
+    rep(i, 0, n)
     {
-        count++;
-        a.insert(i * i);
-    }
-    for (ll i = 1; i * i * i <= n; i++)
-    {
-        if (a.find(i) != a.end())
+        cin >> l >> r >> c;
+        if (i == 0)
+        {
+            minL = l;
+            maxR = r;
+            cl = c;
+            cr = c;
+            flag = c;
+        }
+        else
+        {
+            if (minL > l)
+            {
+                // cout << "case:1 ";
+                minL = l;
+                cl = c;
+                flag = 0;
+            }
+            else if (minL == l && cl > c)
+            {
+                // cout << "case: 2";
+                cl = c;
+            }
+            if (maxR < r)
+            {
+                // cout << "case: 3";
+                maxR = r;
+                cr = c;
+                // minCr = cr;
+                flag = 0;
+            }
+            else if (maxR == r && cr > c)
+            {
+                // cout << "case: 4";
+                cr = c;
+                // minC\r = cr;
+            }
+            if (maxR == r && minL == l)
+            {
+                if (!flag || flag > c)
+                {
+                    flag = c;
+                    if (cr + cl < flag)
+                    {
+                        flag = 0;
+                    }
+                }
+            }
+            if (flag)
+            {
+                if (cr + cl < flag)
+                {
+                    flag = 0;
+                }
+            }
+        }
+        if (flag)
+        {
+            cout << flag << endl;
             continue;
-        count++;
+        }
+        cout << cl + cr << endl;
     }
-    cout << count << endl;
-
     // Write your code here
 }
+// 5
+// 2 4 4
+// 2 10 252
+// 2 15 271
+// 6 14 5
+// 2 15 299
 
 int main()
 {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     cout.tie(NULL);
+
+#ifndef ONLINE_JUDGE
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
+#endif
 
     // with multiple test cases::::
 
@@ -239,7 +319,6 @@ int main()
     {
 
         solve();
-        cout << endl;
     }
 
     // without multiple test cases::::

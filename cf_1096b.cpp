@@ -30,6 +30,10 @@ ll gcd(ll a, ll b)
         return a;
     return gcd(b, a % b);
 }
+ll lcm(ll a, ll b)
+{
+    return (a * b) / gcd(a, b);
+}
 ll extgcd(ll a, ll b, ll &x, ll &y)
 {
     if (b == 0)
@@ -159,6 +163,21 @@ ll nCr(ll n, ll r)
     return z;
 }
 
+vector<string> strSplit(string s, string del = " ")
+{
+    int start = 0;
+    int end = s.find(del);
+    vector<string> result;
+    while (end != -1)
+    {
+        result.pb(s.substr(start, end - start));
+        start = end + del.size();
+        end = s.find(del, start);
+    }
+    result.pb(s.substr(start, end - start));
+    return result;
+}
+
 /*
 vll a[mx];
 ll l[mx],d[mx];
@@ -204,23 +223,39 @@ void bfs(ll x){
 
 void solve()
 {
-    ll n;
+    ll n, countFr = 1, countLs = 1;
     cin >> n;
-    set<int> a;
-    ll count = 0;
-    for (ll i = 1; i * i <= n; i++)
+    string s;
+    cin >> s;
+    // cout << "case0";
+    rep(i, 1, n)
     {
-        count++;
-        a.insert(i * i);
+        if (s[i] == s[i - 1])
+            countFr++;
+        else
+            break;
     }
-    for (ll i = 1; i * i * i <= n; i++)
+    if (countFr == n)
     {
-        if (a.find(i) != a.end())
-            continue;
-        count++;
+        // cout << "Case1";
+        cout << (n * (n + 1) / 2) % 998244353;
+        return;
     }
-    cout << count << endl;
-
+    rrep(i, 0, n - 1)
+    {
+        if (s[i] == s[i + 1])
+            countLs++;
+        else
+            break;
+    }
+    if (s[0] == s[n - 1])
+    {
+        // cout << "Case2: " << countFr << countLs;
+        cout << ((countFr + 1) * (countLs + 1)) % 998244353;
+        return;
+    }
+    // cout << "Case100";
+    cout << (countLs + countFr + 1) % 998244353;
     // Write your code here
 }
 
@@ -232,19 +267,18 @@ int main()
 
     // with multiple test cases::::
 
-    ll t;
-    cin >> t;
+    // ll t;
+    // cin >> t;
 
-    while (t--)
-    {
+    // while (t--)
+    // {
 
-        solve();
-        cout << endl;
-    }
+    //     solve();
+    // }
 
     // without multiple test cases::::
 
-    // solve();
+    solve();
 
     return 0;
 }

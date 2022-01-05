@@ -30,6 +30,10 @@ ll gcd(ll a, ll b)
         return a;
     return gcd(b, a % b);
 }
+ll lcm(ll a, ll b)
+{
+    return (a * b) / gcd(a, b);
+}
 ll extgcd(ll a, ll b, ll &x, ll &y)
 {
     if (b == 0)
@@ -159,6 +163,21 @@ ll nCr(ll n, ll r)
     return z;
 }
 
+vector<string> strSplit(string s, string del = " ")
+{
+    int start = 0;
+    int end = s.find(del);
+    vector<string> result;
+    while (end != -1)
+    {
+        result.pb(s.substr(start, end - start));
+        start = end + del.size();
+        end = s.find(del, start);
+    }
+    result.pb(s.substr(start, end - start));
+    return result;
+}
+
 /*
 vll a[mx];
 ll l[mx],d[mx];
@@ -204,25 +223,75 @@ void bfs(ll x){
 
 void solve()
 {
-    ll n;
+    ll n, l, r, c, cl, cr, minL, maxR, minCr, flag = 0;
     cin >> n;
-    set<int> a;
-    ll count = 0;
-    for (ll i = 1; i * i <= n; i++)
+    rep(i, 0, n)
     {
-        count++;
-        a.insert(i * i);
+        cin >> l >> r >> c;
+        if (i == 0)
+        {
+            minL = l;
+            maxR = r;
+            cl = c;
+            cr = 0;
+            minCr = c;
+        }
+        else
+        {
+            if (minL > l)
+            {
+                // cout << "case:1 ";
+                if (cr == 0)
+                {
+                    cr = minCr;
+                }
+                minL = l;
+                cl = c;
+            }
+            else if (minL == l && cl > c && cr)
+            {
+                // cout << "case: 2";
+                cl = c;
+            }
+            if (maxR < r)
+            {
+                // cout << "case: 3";
+                maxR = r;
+                cr = c;
+                minCr = cr;
+            }
+            else if (maxR == r && cr > c)
+            {
+                // cout << "case: 4";
+                cr = c;
+                minCr = cr;
+            }
+            if (maxR == r && minL == l)
+            {
+                // cout << "case:5";
+                if (cl + cr > c)
+                {
+                    // minCr = cr;
+                    cr = 0;
+                    cl = c;
+                }
+            }
+            if (maxR == r && minCr > c)
+                minCr = c;
+        }
+        cout << cl + cr << endl;
     }
-    for (ll i = 1; i * i * i <= n; i++)
-    {
-        if (a.find(i) != a.end())
-            continue;
-        count++;
-    }
-    cout << count << endl;
-
     // Write your code here
 }
+// 8
+// 1 4 4
+// 5 8 9
+// 7 8 7
+// 2 10 252
+// 1 11 271
+// 1 10 1
+// 6 11 5
+// 1 2 6
 
 int main()
 {
@@ -239,7 +308,6 @@ int main()
     {
 
         solve();
-        cout << endl;
     }
 
     // without multiple test cases::::
