@@ -291,9 +291,25 @@ string giveBinary(int x)
 
 void solve()
 {
-    ll n;
+    ll n, sum = 0, temp;
     cin >> n;
-    cout << fact[n] << endl;
+    rep(i, 0, n)
+    {
+        cin >> temp;
+        sum += temp;
+    }
+    if (sum == n)
+    {
+        cout << 0 << endl;
+    }
+    else if (sum > n)
+    {
+        cout << sum - n << endl;
+    }
+    else
+    {
+        cout << 1 << endl;
+    }
     // Write your code here
 }
 

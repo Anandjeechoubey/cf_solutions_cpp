@@ -269,31 +269,26 @@ vll givePrime(int n)
     return a;
 }
 
-vll primes = givePrime(10);
-
-string giveBinary(int x)
-{
-    string s = "";
-    while (x)
-    {
-        if (x % 2)
-        {
-            s = '1' + s;
-        }
-        else
-        {
-            s = '0' + s;
-        }
-        x /= 2;
-    }
-    return s;
-}
+vll primes = givePrime(100);
 
 void solve()
 {
-    ll n;
-    cin >> n;
-    cout << fact[n] << endl;
+    string s;
+    char temp;
+    cin >> s;
+    rep(i, 0, s.length() - 1)
+    {
+        rep(j, 0, s.length() - 1)
+        {
+            if (s[j] > s[j + 1])
+            {
+                temp = s[j];
+                s[j] = s[j + 1];
+                s[j + 1] = temp;
+            }
+        }
+    }
+    cout << s << endl;
     // Write your code here
 }
 

@@ -258,42 +258,56 @@ ll nextPrime(ll n)
     return ans;
 }
 
-vll givePrime(int n)
-{
-    vll a(n);
-    a[0] = 2;
-    rep(i, 1, n)
-    {
-        a[i] = nextPrime(a[i - 1]);
-    }
-    return a;
-}
-
-vll primes = givePrime(10);
-
-string giveBinary(int x)
-{
-    string s = "";
-    while (x)
-    {
-        if (x % 2)
-        {
-            s = '1' + s;
-        }
-        else
-        {
-            s = '0' + s;
-        }
-        x /= 2;
-    }
-    return s;
-}
-
 void solve()
 {
-    ll n;
+    ll n, u, v, flag = 0, count = 0, start = 0, end = 0, currPrime = 2;
     cin >> n;
-    cout << fact[n] << endl;
+    vector<prll> a;
+    vll check(n + 1);
+    // vector<vll> ans(n);
+    vector<vll> ans(n, vector<ll>(n, 0));
+    rep(i, 0, n - 1)
+    {
+        cin >> u >> v;
+        if (check[u] == 2 || check[v] == 2)
+        {
+            flag == -1;
+        }
+        check[u]++;
+        check[v]++;
+        ans[u][v] = 1;
+        ans[v][u] = 1;
+        a.pb({u, v});
+    }
+    if (flag == -1)
+    {
+        cout << flag << endl;
+        return;
+    }
+    rep(i, 1, n + 1)
+    {
+        if (check[i] == 1)
+        {
+            count++;
+            if (!start)
+                start = check[i];
+        }
+    }
+    if (count != 2)
+    {
+        cout << -1 << endl;
+    }
+    rep(i, 1, n)
+    {
+        if (ans[i][start] == 1)
+        {
+            ans[i][start] == 2;
+        }
+        else if (ans[i][start] == 2)
+        {
+            ans[i][start] = currPrime = nextPrime(currPrime);
+        }
+    }
     // Write your code here
 }
 

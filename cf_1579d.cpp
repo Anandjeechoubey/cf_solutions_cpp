@@ -253,7 +253,7 @@ void bfs(ll x){
 ll nextPrime(ll n)
 {
     ll ans = n + 1;
-    while (!isPrime(ans) || !isPrime(ans + 2))
+    while (!isPrime(ans))
         ans++;
     return ans;
 }
@@ -269,31 +269,19 @@ vll givePrime(int n)
     return a;
 }
 
-vll primes = givePrime(10);
-
-string giveBinary(int x)
-{
-    string s = "";
-    while (x)
-    {
-        if (x % 2)
-        {
-            s = '1' + s;
-        }
-        else
-        {
-            s = '0' + s;
-        }
-        x /= 2;
-    }
-    return s;
-}
+vll primes = givePrime(100);
 
 void solve()
 {
-    ll n;
+    ll n, temp;
     cin >> n;
-    cout << fact[n] << endl;
+    vector<prll> a(n);
+    rep(i, 0, n)
+    {
+        cin >> temp;
+        a[i] = {temp, i};
+    }
+    sort(all(a));
     // Write your code here
 }
 

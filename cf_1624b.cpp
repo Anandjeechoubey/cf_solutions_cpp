@@ -250,50 +250,149 @@ void bfs(ll x){
  */
 // Function that returns true if num is
 
-ll nextPrime(ll n)
+void solve()
 {
-    ll ans = n + 1;
-    while (!isPrime(ans) || !isPrime(ans + 2))
-        ans++;
-    return ans;
-}
-
-vll givePrime(int n)
-{
-    vll a(n);
-    a[0] = 2;
-    rep(i, 1, n)
+    ll a, b, c, temp;
+    cin >> a >> b >> c;
+    if ((b - a) == (c - b))
     {
-        a[i] = nextPrime(a[i - 1]);
+        cout << "YES\n";
+        return;
     }
-    return a;
-}
-
-vll primes = givePrime(10);
-
-string giveBinary(int x)
-{
-    string s = "";
-    while (x)
+    if (a == b)
     {
-        if (x % 2)
+        if (c < a)
         {
-            s = '1' + s;
+            if (b % c == 0 && (b / c > 0))
+            {
+                cout << "YES\n";
+                return;
+            }
+            else
+            {
+                cout << "NO\n";
+                return;
+            }
+        }
+        temp = c + a;
+        if (temp % 2)
+        {
+            cout << "NO\n";
+            return;
+        }
+        temp /= 2;
+        if (temp % b == 0 && (temp / b > 0))
+        {
+            cout << "YES\n";
+            return;
+        }
+        cout << "NO\n";
+        return;
+    }
+    if (c == b)
+    {
+        if (a < b)
+        {
+            if (b % a == 0 && (b / a > 0))
+            {
+                cout << "YES\n";
+                return;
+            }
+            else
+            {
+                cout << "NO\n";
+                return;
+            }
+        }
+        temp = c + a;
+        if (temp % 2)
+        {
+            cout << "NO\n";
+            return;
+        }
+        temp /= 2;
+        if (temp % b == 0 && (temp / b > 0))
+        {
+            cout << "YES\n";
+            return;
+        }
+        cout << "NO\n";
+        return;
+    }
+    if (a == c)
+    {
+        if (b < a)
+        {
+            if (a % b == 0 && (a / b > 0))
+            {
+                cout << "YES\n";
+                return;
+            }
+            else
+            {
+                cout << "NO\n";
+                return;
+            }
+        }
+        temp = 2 * b - a;
+        if (temp % c == 0 && (temp / c > 0))
+        {
+            cout << "YES\n";
+            return;
         }
         else
         {
-            s = '0' + s;
+            cout << "NO\n";
+            return;
         }
-        x /= 2;
+        cout << "NO\n";
+        return;
     }
-    return s;
-}
 
-void solve()
-{
-    ll n;
-    cin >> n;
-    cout << fact[n] << endl;
+    // All equal cases handled above
+    if (b < a && b < c)
+    {
+        if ((a + c) % 2)
+        {
+            cout << "NO\n";
+            return;
+        }
+        temp = (a + c) / 2;
+        if (temp % b == 0)
+        {
+            cout << "YES\n";
+            return;
+        }
+        cout << "NO\n";
+        return;
+    }
+
+    temp = 2 * b - a;
+    if (temp % c == 0 && (temp / c > 0))
+    {
+        cout << "YES\n";
+        return;
+    }
+    temp = 2 * b - c;
+    if (temp % a == 0 && (temp / a > 0))
+    {
+        cout << "YES\n";
+        return;
+    }
+    temp = c + a;
+    if (temp % 2)
+    {
+        cout << "NO\n";
+        return;
+    }
+    temp /= 2;
+    if (temp % b == 0)
+    {
+        cout << "YES\n";
+        return;
+    }
+    cout << "NO\n";
+    return;
     // Write your code here
 }
 

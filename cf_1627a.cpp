@@ -250,50 +250,49 @@ void bfs(ll x){
  */
 // Function that returns true if num is
 
-ll nextPrime(ll n)
-{
-    ll ans = n + 1;
-    while (!isPrime(ans) || !isPrime(ans + 2))
-        ans++;
-    return ans;
-}
-
-vll givePrime(int n)
-{
-    vll a(n);
-    a[0] = 2;
-    rep(i, 1, n)
-    {
-        a[i] = nextPrime(a[i - 1]);
-    }
-    return a;
-}
-
-vll primes = givePrime(10);
-
-string giveBinary(int x)
-{
-    string s = "";
-    while (x)
-    {
-        if (x % 2)
-        {
-            s = '1' + s;
-        }
-        else
-        {
-            s = '0' + s;
-        }
-        x /= 2;
-    }
-    return s;
-}
-
 void solve()
 {
-    ll n;
-    cin >> n;
-    cout << fact[n] << endl;
+    ll n, m, r, c, flag = -1;
+    cin >> n >> m >> r >> c;
+    // vector<vector<string>> s[n][m];
+    char s;
+    rep(i, 1, n + 1)
+    {
+        rep(j, 1, m + 1)
+        {
+            cin >> s;
+            if (flag == 0)
+                continue;
+            if (i == r && j == c)
+            {
+                if (s == 'B')
+                {
+                    flag = 0;
+                }
+            }
+            else if (i == r)
+            {
+                if (s == 'B')
+                {
+                    flag = 1;
+                }
+            }
+            else if (j == c)
+            {
+                if (s == 'B')
+                {
+                    flag = 1;
+                }
+            }
+            if (s == 'B' && (flag == -1))
+            {
+                flag = 2;
+            }
+        }
+    }
+    cout << flag << endl;
+    // cin >> nn;
+    // cout << ans << endl;
     // Write your code here
 }
 
